@@ -18,13 +18,20 @@ let diceNum = (num) => {
 
 let Number = ({total, setTotal}) => {
     let numberData = [];
+    let [number, setNumber] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
     let clicked = (event) => {
-        let number = event.target.id;
+        let numberId = parseInt(event.target.id);
         let isTransformed = event.target.style.transform;
 
-        if (!isTransformed && total - number >= 0){
-            setTotal(total -= number);
+        if (!isTransformed && total - numberId >= 0){
+            setTotal(total -= numberId);
+            setNumber(num => num.filter(n => n != numberId));
+
+            if (number.length == 0 && total == 0){
+                alert('good game !');
+            }
+
             event.target.style.transform = 'translate(0, 40px)';
         }
     }
@@ -44,6 +51,8 @@ let Number = ({total, setTotal}) => {
 let Game = () => {
     let [totalNum, setTotal] = useState(0);
     let [num, setNumm] = useState(Math.floor(Math.random() * 5) + 1);
+
+    let playAgain = () => window.location.reload();
 
     let play = () => {
         if (totalNum == 0){
@@ -91,7 +100,10 @@ let Game = () => {
                 <div className="small-board"></div>
                 <div className="big-board"></div>
 
-                <button onClick={play} className="play-btn">Roll The Dice</button>
+                <div className="btn-box">
+                    <button onClick={play} className="play-btn">Roll The Dice</button>
+                    <button onClick={playAgain} className="new-game">New Game</button>
+                </div>
             </div>
         </>
     )

@@ -139,10 +139,20 @@ body{
 }
 
 
-.play-btn{
-    display: block;
-    margin: 5vh auto 0;
+.btn-box{
+    width: calc(55vw + 40px);
+    height: 10vh;
 
+    display: flex;
+    margin-top: 5vh;
+    justify-content: center;
+    
+    column-gap: 10vh;
+    grid-template-columns: repeat(2, 50vw);
+}
+
+.play-btn, .new-game{
+    width: 120px;
     padding: 10px 12px;
     font-size: 16px;
     color: #654321;
@@ -152,7 +162,7 @@ body{
     cursor: pointer;
 }
 
-.play-btn:hover{
+.play-btn:hover, .new-game:hover{
     background: #654321;
     color: #fefefe;
 }
