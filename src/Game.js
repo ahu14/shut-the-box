@@ -26,9 +26,9 @@ let Number = ({total, setTotal}) => {
 
         if (!isTransformed && total - numberId >= 0){
             setTotal(total -= numberId);
-            setNumber(num => num.filter(n => n != numberId));
+            setNumber(num => num.filter(n => n !== numberId));
 
-            if (number.length == 0 && total == 0){
+            if (number.length === 0 && total === 0){
                 alert('good game !');
             }
 
