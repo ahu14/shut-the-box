@@ -55,7 +55,7 @@ let Game = () => {
     let playAgain = () => window.location.reload();
 
     let play = () => {
-        if (totalNum == 0){
+        if (totalNum === 0){
             setTotal(totalNum = 0);
             let dice = document.querySelectorAll('.dice');
             let diceDot = document.querySelectorAll('.dice-dot');
