@@ -1,0 +1,160 @@
+body{
+    margin: 0;
+    padding: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+#title{
+    display: block;
+    margin: 5vh auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+
+.shut-the-box{
+    margin: 5vh 0;
+    width: calc(65vw + 40px);
+    height: calc(60vh + 30px);
+    background: #228c22;
+}
+
+
+.number-box{
+    width: calc(65vw + 40px);
+    height: 20px;
+    background: #654321;
+
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.number{
+    transform: translateY(-10px);
+    width: calc((65vw - 20vw) / 9);
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 30px;
+    color: #fefefe;
+    background: #754321;
+
+    transition: 20ms ease;
+    cursor: pointer;
+}
+
+
+.connecting-stick{
+    width: 65vw;
+    height: 20px;
+
+    border: 20px solid #654321;
+    border-bottom: 10px solid #654321;
+    border-top: 0;
+    background: #765432;
+}
+
+
+.small-board{
+    width: 65vw;
+    height: 5vh;
+    background: #765432;
+    border: 20px solid #654321;
+
+    border-bottom: 0;
+    border-top: 0;
+}
+
+
+.big-board{
+    width: 65vw;
+    height: 47vh;
+    border: 20px solid#654321;
+    border-top: 10px solid #654321;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.dice{
+    padding: 0.5vh;
+    width: 11vh;
+    height: 11vh;
+    background: #fefefe;
+    border-radius: 4px;
+
+    display: grid;
+    grid-template-areas: 
+        "a . c"
+        "e g f"
+        "d . b";
+    cursor: pointer;
+}
+
+.dice-dot{
+    width: 2.8vh;
+    height: 2.8vh;
+    background: #333;
+    border-radius: 4px;
+    align-self: center;
+    justify-self: center;
+}
+
+.dice-dot:first-child{
+    grid-area: a;
+}
+
+.dice-dot:nth-child(2){
+    grid-area: b;
+}
+
+.dice-dot:nth-child(3){
+    grid-area: c;
+}
+
+.dice-dot:nth-child(4){
+    grid-area: d;
+}
+
+.dice-dot:nth-child(5){
+    grid-area: e;
+}
+
+.dice-dot:nth-child(6){
+    grid-area: f;
+}
+
+.dice-dot:nth-child(odd):last-child{
+    grid-area: g;
+}
+
+
+.play-btn{
+    display: block;
+    margin: 5vh auto;
+
+    width: 120px;
+    padding: 10px 12px;
+    font-size: 16px;
+    color: #654321;
+    background: #fefefe;
+    border: 2px solid #654321;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.play-btn:hover{
+    background: #654321;
+    color: #fefefe;
+}
