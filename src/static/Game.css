@@ -11,23 +11,19 @@ body{
 }
 
 #title{
-    display: block;
-    margin: 5vh auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
 }
 
 
 .shut-the-box{
-    margin: 5vh 0;
-    width: calc(65vw + 40px);
+    width: calc(85vw + 26px);
     height: calc(60vh + 30px);
     background: #228c22;
 }
 
 
 .number-box{
-    width: calc(65vw + 40px);
+    width: calc(85vw + 26px);
     height: 20px;
     background: #654321;
 
@@ -37,14 +33,14 @@ body{
 
 .number{
     transform: translateY(-10px);
-    width: calc((65vw - 20vw) / 9);
+    width: calc(43vw / 9);
     height: 60px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 30px;
+    font-size: 20px;
     color: #fefefe;
     background: #754321;
 
@@ -54,21 +50,21 @@ body{
 
 
 .connecting-stick{
-    width: 65vw;
-    height: 20px;
+    width: 85vw;
+    height: 21px;
 
-    border: 20px solid #654321;
-    border-bottom: 10px solid #654321;
+    border: 13px solid #654321;
+    border-bottom: 8px solid #654321;
     border-top: 0;
     background: #765432;
 }
 
 
 .small-board{
-    width: 65vw;
+    width: 85vw;
     height: 5vh;
     background: #765432;
-    border: 20px solid #654321;
+    border: 13px solid #654321;
 
     border-bottom: 0;
     border-top: 0;
@@ -76,21 +72,22 @@ body{
 
 
 .big-board{
-    width: 65vw;
+    width: 85vw;
     height: 47vh;
-    border: 20px solid#654321;
+    border: 13px solid#654321;
     border-top: 10px solid #654321;
 
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    flex-direction: column;
 }
 
 
 .dice{
     padding: 0.5vh;
-    width: 11vh;
-    height: 11vh;
+    width: 7vh;
+    height: 7vh;
     background: #fefefe;
     border-radius: 4px;
 
@@ -103,8 +100,8 @@ body{
 }
 
 .dice-dot{
-    width: 2.8vh;
-    height: 2.8vh;
+    width: 2vh;
+    height: 2vh;
     background: #333;
     border-radius: 4px;
     align-self: center;
@@ -157,4 +154,75 @@ body{
 .play-btn:hover{
     background: #654321;
     color: #fefefe;
+}
+
+
+@media screen and (min-width: 768px){
+    body{
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .shut-the-box{
+        margin: 5vh 0;
+        width: calc(55vw + 40px);
+        height: calc(60vh + 30px);
+    }
+
+    .number-box{
+        width: calc(55vw + 40px);
+        height: 18px;
+        background: #654321;
+    }
+    
+    .number{
+        transform: translateY(-10px);
+        width: calc((55vw - 25vw) / 9);
+        height: 65px;
+    }
+    
+    
+    .connecting-stick{
+        width: 55vw;
+        height: 25px;
+        border: 20px solid #654321;
+        border-bottom: 10px solid#654321;
+        border-top: 0;
+        background: #765432;
+    }
+    
+    
+    .small-board{
+        width: 55vw;
+        height: 5vh;
+
+        border: 20px solid #654321;
+        border-bottom: 0;
+        border-top: 0;
+    }
+    
+    
+    .big-board{
+        width: 55vw;
+        height: 47vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        border: 20px solid#654321;
+        border-top: 10px solid #654321;
+    }
+
+    .dice{
+        padding: 0.5vh;
+        width: 11vh;
+        height: 11vh;
+    }
+
+    .dice-dot{
+        width: 2.8vh;
+        height: 2.8vh;
+    }
 }
