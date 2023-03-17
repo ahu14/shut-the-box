@@ -26,16 +26,7 @@ let Number = ({number, setNumber, total, setTotal}) => {
 
         if (!isTransformed && total - numberId >= 0){
             setTotal(total -= numberId);
-<<<<<<< HEAD
-            setNumber(num => num.filter(n => n !== numberId));
-
-            if (number.length === 0 && total === 0){
-                alert('good game !');
-            }
-
-=======
             setNumber(num => num.filter(n => n != numberId));
->>>>>>> development
             event.target.style.transform = 'translate(0, 40px)';
         }
     }
