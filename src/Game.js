@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
-import "./Game.css";
+import { currentPage, changePage } from "./Page";
+import "./static/Game.css";
 
 let diceNum = (num) => {
     let diceData = [];
@@ -16,9 +17,8 @@ let diceNum = (num) => {
 
 
 
-let Number = ({total, setTotal}) => {
+let Number = ({number, setNumber, total, setTotal}) => {
     let numberData = [];
-    let [number, setNumber] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
     let clicked = (event) => {
         let numberId = parseInt(event.target.id);
@@ -26,12 +26,16 @@ let Number = ({total, setTotal}) => {
 
         if (!isTransformed && total - numberId >= 0){
             setTotal(total -= numberId);
+<<<<<<< HEAD
             setNumber(num => num.filter(n => n !== numberId));
 
             if (number.length === 0 && total === 0){
                 alert('good game !');
             }
 
+=======
+            setNumber(num => num.filter(n => n != numberId));
+>>>>>>> development
             event.target.style.transform = 'translate(0, 40px)';
         }
     }
@@ -48,11 +52,10 @@ let Number = ({total, setTotal}) => {
 
 
 
-let Game = () => {
+let Game = ({page, setPage}) => {
     let [totalNum, setTotal] = useState(0);
     let [num, setNumm] = useState(Math.floor(Math.random() * 5) + 1);
-
-    let playAgain = () => window.location.reload();
+    let [number, setNumber] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
     let play = () => {
         if (totalNum === 0){
@@ -86,6 +89,38 @@ let Game = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if (totalNum > 0){
+            let condition = false;
+
+            for (let i = 0; i < number.length; i++){
+                if (number[i] == totalNum){
+                    condition = condition || true;
+                }
+    
+                for (let a = number.length - 1; a >= 0; a--){
+                    if (number[i] != number[a] && (number[i] + number[a]) == totalNum){
+                        condition = condition || true;
+                    }
+                }
+            }
+    
+            if (condition == false){
+                setTimeout(() => {
+                    changePage('gameover');
+                    setPage(currentPage);
+                }, 1500);
+            }
+        }
+
+        else if (totalNum == 0 && number.length == 0){
+            setTimeout(() => {
+                changePage('winthegame');
+                setPage(currentPage);
+            }, 1500);
+        }
+    }, [number, totalNum]);
+
 
     return (
         <>
@@ -93,17 +128,15 @@ let Game = () => {
             
             <div className="shut-the-box">
                 <div className="number-box">
-                    <Number total={totalNum} setTotal={setTotal} />
+                    <Number number={number} setNumber={setNumber}
+                    total={totalNum} setTotal={setTotal} />
                 </div>
 
                 <div className="connecting-stick"></div>
                 <div className="small-board"></div>
                 <div className="big-board"></div>
 
-                <div className="btn-box">
-                    <button onClick={play} className="play-btn">Roll The Dice</button>
-                    <button onClick={playAgain} className="new-game">New Game</button>
-                </div>
+                <button onClick={play} className="play-btn">Roll The Dice</button>
             </div>
         </>
     )

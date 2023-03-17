@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import Game from "./Game.js";
+import Home from "./Home.js";
 
 let root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Game />);
+root.render(<Home />);
