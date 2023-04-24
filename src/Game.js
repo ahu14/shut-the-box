@@ -1,14 +1,15 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { currentPage, changePage } from "./Page";
-import "./static/Game.css";
+
 
 let diceNum = (num) => {
     let diceData = [];
 
     for (let i = 0; i < num; i++){
         let diceDot = document.createElement('div');
-        diceDot.key = i;
-        diceDot.className = 'dice-dot';
+        diceDot.id = 'dice-dot';
+        diceDot.key = 'dice-dot-' + i;
+        diceDot.className = 'w-3 h-3 rounded-full bg-black';
         diceData.push(diceDot);
     }
 
@@ -27,14 +28,14 @@ let Number = ({number, setNumber, total, setTotal}) => {
         if (!isTransformed && total - numberId >= 0){
             setTotal(total -= numberId);
             setNumber(num => num.filter(n => n != numberId));
-            event.target.style.transform = 'translate(0, 40px)';
+            event.target.style.transform = 'translate(0, 30px)';
         }
     }
 
     for (let i = 1; i < 10; i++){
         numberData.push(
             <div key={i} id={i} onClick={clicked}
-            className="number">{i}</div>
+            className="w-5 h-12 text-slate-50 bg-yellow-800 sm:w-6">{i}</div>
         );
     }
 
@@ -43,16 +44,17 @@ let Number = ({number, setNumber, total, setTotal}) => {
 
 
 
-let Game = ({page, setPage}) => {
+let Game = ({page, setPage, setting, setSetting}) => {
     let [totalNum, setTotal] = useState(0);
     let [num, setNumm] = useState(Math.floor(Math.random() * 5) + 1);
     let [number, setNumber] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    let roll = useRef();
 
     let play = () => {
         if (totalNum == 0){
             setTotal(totalNum = 0);
-            let dice = document.querySelectorAll('.dice');
-            let diceDot = document.querySelectorAll('.dice-dot');
+            let dice = document.querySelectorAll('#dice');
+            let diceDot = document.querySelectorAll('#dice-dot');
             
             diceDot.forEach(dot => dot.remove());
 
@@ -64,23 +66,33 @@ let Game = ({page, setPage}) => {
         }
     }
 
+    let rollDice = () => {
+        if (totalNum == 0){
+            let dice = document.querySelectorAll('#dice');
+
+            for (let i = 0; i < 2; i++){
+                setNumm(num = Math.floor(Math.random() * 6 + 1));
+                setTotal(totalNum += num);
+                
+                diceNum(num).forEach(d => dice[i].appendChild(d));
+            }
+        }
+    }
+
     useEffect(() => {
-        let bigBoard = document.querySelector('.big-board');
+        rollDice();
 
-        for (let i = 0; i < 2; i++){
-            setNumm(num = Math.floor(Math.random() * 5 + 1));
-            setTotal(totalNum += num);
-
-            let dice = document.createElement('div');
-            dice.id = num;
-            dice.className = "dice";
-            
-            diceNum(num).forEach(d => dice.appendChild(d));
-            bigBoard.appendChild(dice);
+        if (setting.automatic){
+            roll.current.style.display = "none";
         }
     }, []);
 
     useEffect(() => {
+        if (totalNum == 0 && setting.automatic){
+            play();
+            rollDice();
+        }
+
         if (totalNum > 0){
             let condition = false;
 
@@ -115,19 +127,31 @@ let Game = ({page, setPage}) => {
 
     return (
         <>
-            <h2 id="title">Current Value : {totalNum}</h2>
+            <h2 className="text-xl text-center font-bold mb-4">Current Value : {totalNum}</h2>
             
-            <div className="shut-the-box">
-                <div className="number-box">
+            <div className="w-11/12 h-7/12 text-center sm:w-96">
+                <div className="w-inherit h-1 flex flex-row justify-evenly
+                flex-wrap text-center border-4 border-transparent">
                     <Number number={number} setNumber={setNumber}
                     total={totalNum} setTotal={setTotal} />
                 </div>
 
-                <div className="connecting-stick"></div>
-                <div className="small-board"></div>
-                <div className="big-board"></div>
+                <div className="w-inherit h-10 bg-amber-600
+                border-8 border-yellow-900"></div>
 
-                <button onClick={play} className="play-btn">Roll The Dice</button>
+                <div className="w-inherit h-7 border-t-0 bg-amber-600 border-yellow-900 border-8"></div>
+
+                <div id="big-board" className="w-inherit h-56
+                border-8 border-t-0 border-yellow-900 bg-amber-600
+                grid grid-cols-2 gap-2 justify-items-center content-center">
+                    <div id="dice" className="w-32 h-8 bg-white border-rounded
+                    flex content-center flex-wrap justify-evenly"></div>
+                    <div id="dice" className="w-32 h-8 bg-white border-rounded
+                    flex content-center flex-wrap justify-evenly"></div>
+                </div>
+
+                <button className="mt-4 p-3 text-slate-50 bg-yellow-800" 
+                onClick={play} ref={roll}>Roll The Dice</button>
             </div>
         </>
     )
