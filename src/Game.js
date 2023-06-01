@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { currentPage, changePage } from "./Page";
 
 
@@ -44,11 +45,15 @@ let Number = ({number, setNumber, total, setTotal}) => {
 
 
 
-let Game = ({page, setPage, setting, setSetting}) => {
+let Game = ({page, setPage}) => {
     let [totalNum, setTotal] = useState(0);
     let [num, setNumm] = useState(Math.floor(Math.random() * 5) + 1);
     let [number, setNumber] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     let roll = useRef();
+
+    let auto = useSelector(state => state.automatic);
+    let dispatch = useDispatch();
+
 
     let play = () => {
         if (totalNum === 0){
@@ -80,17 +85,17 @@ let Game = ({page, setPage, setting, setSetting}) => {
     }
 
     useEffect(() => {
-        rollDice();
-
-        if (setting.automatic){
+        play();
+        
+        if (auto == 'true'){
+            rollDice();
             roll.current.style.display = "none";
         }
     }, []);
 
     useEffect(() => {
-        if (totalNum == 0 && setting.automatic){
+        if (totalNum == 0 && auto != 'false'){
             play();
-            rollDice();
         }
 
         if (totalNum > 0){
