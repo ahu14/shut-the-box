@@ -1,53 +1,35 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { currentPage, changePage } from "./Page";
-import { getCookie, setCookie } from "./Cookie";
 
-let Button = ({id, status, setStatus, setting, setSetting}) => {
-    let [clicked, setClicked] = useState(status[id]);
+let Button = ({id}) => {
+    let data = useSelector(state => state);
+    let auto = useSelector(state => state.automatic);
+    let darkMode = useSelector(state => state.darkMode);
+    let dispatch = useDispatch();
 
     let detectClick = (event) => {
-        setClicked(clicked = clicked == true ? false : true);
-        setStatus(prev => {
-            prev[id] = clicked;
-            return prev;
-        });
+        event.target.id.includes('dark')
+            ? dispatch({type: 'toggleTheme'})
+            : dispatch({type: 'toggleAuto'});
 
-        clicked == true
+        event.target.style.justifyContent == ""
             ? event.target.style.justifyContent = "flex-end"
             : event.target.style.justifyContent = ""
-        
-        setSetting(s => {
-            s.darkMode = status['dark'];
-            s.automatic = status['auto'];
-            s.background = s.setBackground();
-            s.color = s.setColor();
-
-            return {
-                automatic : s.automatic,
-                darkMode : s.darkMode,
-                background : s.background,
-                color : s.color,
-                setBackground : function(){
-                    return this.darkMode ? '#333' : '#fefefe'
-                },
-                setColor : function(){
-                    return this.darkMode ? '#fefefe' : '#333'
-                }
-            }
-        })
     }
 
     useEffect(() => {
-        let btn = document.querySelector(`#btn-${id}`);
+        let btn_auto = document.getElementById('btn-auto');
+        let btn_dark = document.getElementById('btn-dark');
+
+        darkMode == 'true'
+            ? btn_dark.style.justifyContent = "flex-end"
+            : btn_dark.style.justifyContent = ""
         
-        status[id] 
-            ? btn.style.justifyContent = "flex-end"
-            : btn.style.justifyContent = "";
-           
-        btn.id == 'btn-dark'
-            ? setCookie('darkMode', JSON.parse(status['dark']))
-            : setCookie('automatic', JSON.parse(status['auto']))
-    }, [status, detectClick]);
+        auto == 'true'
+            ? btn_auto.style.justifyContent = "flex-end"
+            : btn_auto.style.justifyContent = ""
+    }, []);
 
     return (
         <div id={'btn-' + id } className="w-14 h-8 bg-slate-200 
@@ -58,12 +40,7 @@ let Button = ({id, status, setStatus, setting, setSetting}) => {
 }
 
 
-let Settings = ({page, setPage, setting, setSetting}) => {
-    let [status, setStatus] = useState({
-        dark : JSON.parse(getCookie('darkMode')),
-        auto : JSON.parse(getCookie('automatic'))
-    });
-
+let Settings = ({page, setPage}) => {
     let clicked = () => {
         changePage('homepage');
         setPage(currentPage);
@@ -75,17 +52,15 @@ let Settings = ({page, setPage, setting, setSetting}) => {
             border-2 duration-300 border-black-200 rounded 
             hover:border-neutral-950">Back to Home</button>
 
-            <div className="w-48 h-fit flex flex-col">
+            <div id="settings" className="w-48 h-fit flex flex-col">
                 <div className="w-inherit h-14 flex items-center justify-between">
                     <p className="text-ms">Dark Mode</p>
-                    <Button id={'dark'} status={status} 
-                    setStatus={setStatus}  setting={setting} setSetting={setSetting}/>
+                    <Button id={'dark'} />
                 </div>
 
                 <div className="w-inherit h-14 flex items-center justify-between">
                     <p className="text-ms">Automatic Dice</p>
-                    <Button id={'auto'} status={status} 
-                    setStatus={setStatus} setting={setting} setSetting={setSetting}/>
+                    <Button id={'auto'} />
                 </div>
             </div>
         </>
