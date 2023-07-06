@@ -1,3 +1,69 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components{
+    .dice{
+        padding: 0.5vh;
+        width: 8vh;
+        height: 8vh;
+        background: #fefefe;
+        border-radius: 4px;
+    
+        display: grid;
+        grid-template-areas: 
+            "a . c"
+            "e g f"
+            "d . b";
+        cursor: pointer;
+    }
+    
+    .dice-dot{
+        width: 1.6vh;
+        height: 1.6vh;
+        background: #333;
+        border-radius: 4px;
+        align-self: center;
+        justify-self: center;
+    }
+    
+    .dice-dot:first-child{
+        grid-area: a;
+    }
+    
+    .dice-dot:nth-child(2){
+        grid-area: b;
+    }
+    
+    .dice-dot:nth-child(3){
+        grid-area: c;
+    }
+    
+    .dice-dot:nth-child(4){
+        grid-area: d;
+    }
+    
+    .dice-dot:nth-child(5){
+        grid-area: e;
+    }
+    
+    .dice-dot:nth-child(6){
+        grid-area: f;
+    }
+    
+    .dice-dot:nth-child(odd):last-child{
+        grid-area: g;
+    }
+
+    @media screen and (min-width: 768px) {
+        .dice{
+            width: 10vh;
+            height: 10vh;
+        }
+
+        .dice-dot{
+            width: 2.5vh;
+            height: 2.5vh;
+        }
+    }
+}

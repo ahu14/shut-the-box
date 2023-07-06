@@ -1,62 +1,54 @@
 import {setCookie, getCookie} from "./Cookie.js";
 
 let initialState = {
-    automatic : false,
-    darkMode : false,
-    background : '#fefefe',
-    color : '#333'
+    automatic : 'false',
+    darkMode : 'false',
+    themeBackground : '#fefefe',
+    themeColor : '#333',
+    woodColor: '#854d0e',
+    boardColor: '#d97706'
 }
 
 
 let settingReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'checkData':
-            let auto = getCookie('automatic');
-            let darkMode = getCookie('darkMode');
+            for (let i in state){
+                let data = getCookie(i);
 
-            if (auto === '' || darkMode === ''){
-                setCookie('automatic', false);
-                setCookie('darkMode', false);
+                if (data != state[i] && data != ''){
+                    setCookie(i, data);
+                    state[i] = data;
+                }
+                
+                else{
+                    setCookie(i, state[i]);
+                    i = state[i];
+                }
 
-                state.automatic = false;
-                state.darkMode = false;
             }
 
-            else{
-                state.automatic = auto;
-                state.darkMode = darkMode;
-            }
+            return state;
 
-            return {...state, automatic: state.automatic, darkMode: state.darkMode}
-
-        case 'toggleAuto':
-            state.automatic = state.automatic === 'false' ? 'true' : 'false';
-            setCookie('automatic', state.automatic);
-            return {...state, automatic: state.automatic}
-
-        case 'toggleTheme':
-            state.darkMode = state.darkMode === 'false' ? 'true' : 'false';
-            state.background = state.darkMode === 'false' ? '#fefefe' :'#333';
-            state.color = state.darkMode === 'false' ? '#333' : '#fefefe';
-
-            setCookie('darkMode', state.darkMode);
-            return {
-                ...state, 
-                darkMode: state.darkMode,
-                background: state.background,
-                color: state.color
-            }
 
         case 'setTheme':
-            state.background = state.darkMode === 'false' ? '#fefefe' :'#333';
-            state.color = state.darkMode === 'false' ? '#333' : '#fefefe';
+            state.themeBackground = state.darkMode === 'false' ? '#fefefe' :'#333';
+            state.themeColor = state.darkMode === 'false' ? '#333' : '#fefefe';
 
             return {
                 ...state, 
-                background: state.background,
-                color: state.color
+                themeBackground: state.themeBackground,
+                themeColor: state.themeColor
             }
+
+
+        case 'toggleFunction':
+            let status = state[action.payload] == 'false' ? 'true' : 'false';
+            state[action.payload] = status;
+            setCookie(action.payload, status);
+            return state;
     
+            
         default:
             return state;
     }
