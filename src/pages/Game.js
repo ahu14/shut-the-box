@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { currentPage, changePage } from "./Page";
+import { getCookie } from "../reducers/Cookie";
 
 
 let diceNum = (num) => {
@@ -10,7 +11,7 @@ let diceNum = (num) => {
         let diceDot = document.createElement('div');
         diceDot.id = 'dice-dot';
         diceDot.key = 'dice-dot-' + i;
-        diceDot.className = 'w-3 h-3 rounded-full bg-black';
+        diceDot.className = 'dice-dot';
         diceData.push(diceDot);
     }
 
@@ -20,6 +21,9 @@ let diceNum = (num) => {
 
 
 let Number = ({number, setNumber, total, setTotal}) => {
+    let data = useSelector(state => state);
+    let dispatch = useDispatch();
+
     let numberData = [];
 
     let clicked = (event) => {
@@ -36,7 +40,8 @@ let Number = ({number, setNumber, total, setTotal}) => {
     for (let i = 1; i < 10; i++){
         numberData.push(
             <div key={i} id={i} onClick={clicked}
-            className="w-5 h-12 text-slate-50 bg-yellow-800 sm:w-6">{i}</div>
+            className="w-5 h-12 text-slate-50 sm:w-6"
+            style={{background: data.woodColor}}>{i}</div>
         );
     }
 
@@ -51,8 +56,11 @@ let Game = ({page, setPage}) => {
     let [number, setNumber] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     let roll = useRef();
 
+    let data = useSelector(state => state);
     let auto = useSelector(state => state.automatic);
     let dispatch = useDispatch();
+
+    let settingPage = useRef();
 
 
     let play = () => {
@@ -84,14 +92,6 @@ let Game = ({page, setPage}) => {
         }
     }
 
-    useEffect(() => {
-        play();
-        
-        if (auto == 'true'){
-            rollDice();
-            roll.current.style.display = "none";
-        }
-    }, []);
 
     useEffect(() => {
         if (totalNum == 0 && auto != 'false'){
@@ -130,6 +130,19 @@ let Game = ({page, setPage}) => {
     }, [number, totalNum]);
 
 
+    useEffect(() => {
+        play();
+
+        data.woodColor = getCookie('woodColor');
+        data.boardColor = getCookie('boardColor');
+        
+        if (auto == 'true'){
+            rollDice();
+            roll.current.style.display = "none";
+        }
+    }, []);
+
+
     return (
         <>
             <h2 className="text-xl text-center font-bold mb-4">Current Value : {totalNum}</h2>
@@ -141,21 +154,20 @@ let Game = ({page, setPage}) => {
                     total={totalNum} setTotal={setTotal} />
                 </div>
 
-                <div className="w-inherit h-10 bg-amber-600
-                border-8 border-yellow-900"></div>
+                <div className="w-inherit h-10 bg-amber-600 border-8" 
+                style={{background: data.boardColor, borderColor: data.woodColor}}></div>
 
-                <div className="w-inherit h-7 border-t-0 bg-amber-600 border-yellow-900 border-8"></div>
+                <div className="w-inherit h-7 border-t-0 border-8"
+                style={{background: data.boardColor, borderColor: data.woodColor}}></div>
 
-                <div id="big-board" className="w-inherit h-56
-                border-8 border-t-0 border-yellow-900 bg-amber-600
-                grid grid-cols-2 gap-2 justify-items-center content-center">
-                    <div id="dice" className="w-32 h-8 bg-white border-rounded
-                    flex content-center flex-wrap justify-evenly"></div>
-                    <div id="dice" className="w-32 h-8 bg-white border-rounded
-                    flex content-center flex-wrap justify-evenly"></div>
+                <div id="big-board" className="w-inherit h-56 border-8 border-t-0 flex flex-col 
+                justify-center flex-wrap md:grid grid-cols-2 gap-2 justify-items-center 
+                content-center" style={{background: data.boardColor, borderColor: data.woodColor}}>
+                    <div id="dice" className="dice"></div>
+                    <div id="dice" className="dice"></div>
                 </div>
 
-                <button className="mt-4 p-3 text-slate-50 bg-yellow-800" 
+                <button className="mt-4 p-3 text-slate-50" style={{background: data.woodColor}}
                 onClick={play} ref={roll}>Roll The Dice</button>
             </div>
         </>
